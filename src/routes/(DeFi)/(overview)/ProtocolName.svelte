@@ -16,7 +16,7 @@
   <div class="flex flex-col items-start gap-2">
     <Button class="h-min p-0" href="/protocols/{name}" variant="link">{name}</Button>
     <Tooltip.Root disableHoverableContent openDelay={0}>
-      <Tooltip.Trigger class="text-start text-muted">
+      <Tooltip.Trigger class="text-start text-muted-foreground">
         {chains.length} Chain{chains.length > 1 ? 's' : ''}</Tooltip.Trigger
       >
       <Tooltip.Content>

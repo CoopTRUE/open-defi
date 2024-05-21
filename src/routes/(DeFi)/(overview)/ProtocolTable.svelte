@@ -2,6 +2,7 @@
   import ProtocolName from './ProtocolName.svelte'
   import * as Table from '$lib/components/ui/table'
   import { createProtocolsQuery } from '$lib/queries'
+  import { cn } from '$lib/utils'
   import { derived } from 'svelte/store'
   import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table'
 
@@ -23,21 +24,49 @@
     table.column({
       accessor: 'tvl',
       header: 'TVL',
+      cell: ({ value }) =>
+        `$${Intl.NumberFormat('en-US', {
+          notation: 'compact',
+        }).format(value)}`,
+    }),
+    table.column({
+      accessor: 'tvlPrevDay',
+      header: '1d Change',
+      cell: ({ value }) => {
+        const change = value - value
+        return change > 0 ? `+${change.toFixed(2)}%` : `${change.toFixed(2)}%`
+      },
+    }),
+    table.column({
+      accessor: 'tvlPrevWeek',
+      header: '7d Change',
+      cell: ({ value }) => {
+        const change = value - value
+        return change > 0 ? `+${change.toFixed(2)}%` : `${change.toFixed(2)}%`
+      },
+    }),
+    table.column({
+      accessor: 'tvlPrevMonth',
+      header: '30d Change',
+      cell: ({ value }) => {
+        const change = value - value
+        return change > 0 ? `+${change.toFixed(2)}%` : `${change.toFixed(2)}%`
+      },
     }),
   ])
 
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns)
 </script>
 
-<div class="rounded-md border">
-  <Table.Root {...$tableAttrs}>
+<div class="container">
+  <Table.Root {...$tableAttrs} class="border-l border-t">
     <Table.Header>
       {#each $headerRows as headerRow}
         <Subscribe rowAttrs={headerRow.attrs()}>
           <Table.Row>
             {#each headerRow.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} props={cell.props()} let:attrs>
-                <Table.Head {...attrs}>
+                <Table.Head {...attrs} class="border-b border-r">
                   <Render of={cell.render()} />
                 </Table.Head>
               </Subscribe>
@@ -49,11 +78,19 @@
     <Table.Body {...$tableBodyAttrs}>
       {#each $pageRows as row (row.id)}
         <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-          <Table.Row {...rowAttrs}>
+          <Table.Row {...rowAttrs} class="border-b border-r">
             {#each row.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} let:attrs>
-                <Table.Cell {...attrs}>
-                  <Render of={cell.render()} />
+                <Table.Cell {...attrs} class="border-b border-r">
+                  {#if cell.id.startsWith('tvlPrev')}
+                    <span class="text-green-500">
+                      <Render of={cell.render()} />
+                    </span>
+                  {:else if cell.id === 'tvl'}
+                    <Render of={cell.render()} />
+                  {:else}
+                    <Render of={cell.render()} />
+                  {/if}
                 </Table.Cell>
               </Subscribe>
             {/each}
