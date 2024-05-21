@@ -13,7 +13,8 @@
     table.column({
       accessor: (protocol) => protocol,
       header: 'Name',
-      cell: ({ value }) => createRender(ProtocolName, { name: value.name, logo: value.logo }),
+      cell: ({ value }) =>
+        createRender(ProtocolName, { name: value.name, logo: value.logo, chains: value.chains }),
     }),
     table.column({
       accessor: 'category',

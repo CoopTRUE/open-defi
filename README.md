@@ -1,6 +1,6 @@
 # Open DeFi
 
-An open-source and much faster alternative to DeFi Llama. Built with `svelte` and `shadcn/ui`
+An blazingly fast and open-source alternative to DeFi Llama. Built with `svelte` and `shadcn/ui`
 
 ## Installing
 
@@ -25,4 +25,4 @@ bun run dev
 bun run build
 ```
 
-> This project runs on [Vercel](https://vercel.com/) and was created by [CoopTRUE](https://github.com/CoopTRUE)
+> DeFi Llama plz hire me 🥺
