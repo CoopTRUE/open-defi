@@ -14,7 +14,7 @@ export function createProtocolsQuery() {
     queryKey: ['protocols'],
     queryFn: createReq<ProtocolsResponse>('https://api.llama.fi/lite/protocols2?b=2'),
     // select only first 50 protocols
-    select: ({ protocols }) => protocols.slice(0, 50),
+    select: ({ protocols }) => protocols.slice(0, 200),
   })
   return query
 }

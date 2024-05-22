@@ -3,7 +3,6 @@
   import Percentage from '$lib/components/Percentage.svelte'
   import * as Table from '$lib/components/ui/table'
   import { createProtocolsQuery } from '$lib/queries'
-  import { cn } from '$lib/utils'
   import { derived } from 'svelte/store'
   import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table'
 
@@ -16,8 +15,13 @@
     table.column({
       accessor: (protocol) => protocol,
       header: 'Name',
-      cell: ({ value }) =>
-        createRender(ProtocolName, { name: value.name, logo: value.logo, chains: value.chains }),
+      cell: ({ value, row }) =>
+        createRender(ProtocolName, {
+          index: +row.id + 1,
+          name: value.name,
+          logo: value.logo,
+          chains: value.chains,
+        }),
     }),
     table.column({
       accessor: 'category',
