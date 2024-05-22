@@ -53,45 +53,43 @@
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns)
 </script>
 
-<div class="container bg-card">
-  <Table.Root {...$tableAttrs} class="border-l border-t">
-    <Table.Header>
-      {#each $headerRows as headerRow}
-        <Subscribe rowAttrs={headerRow.attrs()}>
-          <Table.Row>
-            {#each headerRow.cells as cell (cell.id)}
-              <Subscribe attrs={cell.attrs()} props={cell.props()} let:attrs>
-                <Table.Head {...attrs} class="border-b border-r">
+<Table.Root {...$tableAttrs} class="border-separate rounded-xl border">
+  <Table.Header>
+    {#each $headerRows as headerRow}
+      <Subscribe rowAttrs={headerRow.attrs()}>
+        <Table.Row>
+          {#each headerRow.cells as cell (cell.id)}
+            <Subscribe attrs={cell.attrs()} props={cell.props()} let:attrs>
+              <Table.Head {...attrs} class="border-l first:border-l-0">
+                <Render of={cell.render()} />
+              </Table.Head>
+            </Subscribe>
+          {/each}
+        </Table.Row>
+      </Subscribe>
+    {/each}
+  </Table.Header>
+  <Table.Body {...$tableBodyAttrs}>
+    {#each $pageRows as row (row.id)}
+      <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
+        <Table.Row {...rowAttrs} class="">
+          {#each row.cells as cell (cell.id)}
+            <Subscribe attrs={cell.attrs()} let:attrs>
+              <Table.Cell {...attrs} class="border-l border-t first:border-l-0">
+                {#if cell.id.startsWith('tvlPrev')}
+                  <span class="text-green-500">
+                    <Render of={cell.render()} />
+                  </span>
+                {:else if cell.id === 'tvl'}
                   <Render of={cell.render()} />
-                </Table.Head>
-              </Subscribe>
-            {/each}
-          </Table.Row>
-        </Subscribe>
-      {/each}
-    </Table.Header>
-    <Table.Body {...$tableBodyAttrs}>
-      {#each $pageRows as row (row.id)}
-        <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-          <Table.Row {...rowAttrs} class="border-b border-r">
-            {#each row.cells as cell (cell.id)}
-              <Subscribe attrs={cell.attrs()} let:attrs>
-                <Table.Cell {...attrs} class="border-b border-r">
-                  {#if cell.id.startsWith('tvlPrev')}
-                    <span class="text-green-500">
-                      <Render of={cell.render()} />
-                    </span>
-                  {:else if cell.id === 'tvl'}
-                    <Render of={cell.render()} />
-                  {:else}
-                    <Render of={cell.render()} />
-                  {/if}
-                </Table.Cell>
-              </Subscribe>
-            {/each}
-          </Table.Row>
-        </Subscribe>
-      {/each}
-    </Table.Body>
-  </Table.Root>
-</div>
+                {:else}
+                  <Render of={cell.render()} />
+                {/if}
+              </Table.Cell>
+            </Subscribe>
+          {/each}
+        </Table.Row>
+      </Subscribe>
+    {/each}
+  </Table.Body>
+</Table.Root>

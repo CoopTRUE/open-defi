@@ -3,7 +3,7 @@
   import ProtocolTable from './ProtocolTable.svelte'
   import { createQuery } from '@tanstack/svelte-query'
   import { Button } from '$lib/components/ui/button'
-  import Smile from 'lucide-svelte/icons/smile'
+  import Trophy from 'lucide-svelte/icons/trophy'
 
   let clicked = 0
 </script>
@@ -16,9 +16,12 @@
   />
 </svelte:head>
 
-<main>
-  <h1 class="flex items-center">Welcome<Smile /></h1>
+<main class="container bg-card">
   <Chart />
+  <h1 class="my-6 flex items-center text-xl font-medium">
+    <Trophy class="mr-2" size={20} />
+    Protocol Rankings
+  </h1>
   <ProtocolTable />
 </main>
 

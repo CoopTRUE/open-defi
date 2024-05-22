@@ -2,13 +2,8 @@
   import { browser } from '$app/environment'
   import CHART from '$lib/constants/chart'
   import { hslToHex } from '$lib/utils'
-  import {
-    type AutoscaleInfoProvider,
-    ColorType,
-    type SeriesDataItemTypeMap,
-  } from 'lightweight-charts'
-  import { get } from 'svelte/store'
-  import { AreaSeries, Chart, LineSeries } from 'svelte-lightweight-charts'
+  import { type AutoscaleInfoProvider, type SeriesDataItemTypeMap } from 'lightweight-charts'
+  import { AreaSeries, Chart } from 'svelte-lightweight-charts'
 
   const data = CHART.map(
     ([date, data]) =>
@@ -41,14 +36,13 @@
 </script>
 
 <Chart
+  container={{ class: '!h-[20rem] !w-full' }}
   grid={{ vertLines: { visible: false }, horzLines: { visible: false } }}
-  height={600}
   layout={{
     background: { color: getColor('card') },
     textColor: getColor('foreground'),
   }}
   localization={{ priceFormatter }}
-  width={800}
 >
   <AreaSeries autoscaleInfoProvider={autoScaleInfoProvider} {data} />
 </Chart>
