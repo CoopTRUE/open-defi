@@ -1,4 +1,4 @@
-# Open DeFi
+# Open DeFi - IN DEVELOPMENT
 
 An blazingly fast and open-source alternative to DeFi Llama. Built with `svelte` and `shadcn/ui`
 
