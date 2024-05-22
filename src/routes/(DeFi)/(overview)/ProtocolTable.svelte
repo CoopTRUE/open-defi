@@ -1,5 +1,6 @@
 <script lang="ts">
   import ProtocolName from './ProtocolName.svelte'
+  import Percentage from '$lib/components/Percentage.svelte'
   import * as Table from '$lib/components/ui/table'
   import { createProtocolsQuery } from '$lib/queries'
   import { cn } from '$lib/utils'
@@ -8,6 +9,7 @@
 
   const protocols = createProtocolsQuery()
   const data = derived(protocols, ($protocols) => $protocols.data ?? [])
+  $: console.log($data.reduce((acc, protocol) => acc + protocol.tvl, 0))
   const table = createTable(data)
 
   const columns = table.createColumns([
@@ -27,38 +29,31 @@
       cell: ({ value }) =>
         `$${Intl.NumberFormat('en-US', {
           notation: 'compact',
+          maximumFractionDigits: 3,
+          minimumFractionDigits: 3,
         }).format(value)}`,
     }),
     table.column({
-      accessor: 'tvlPrevDay',
+      accessor: (protocol) => (protocol.tvl - protocol.tvlPrevDay) / protocol.tvlPrevDay,
       header: '1d Change',
-      cell: ({ value }) => {
-        const change = value - value
-        return change > 0 ? `+${change.toFixed(2)}%` : `${change.toFixed(2)}%`
-      },
+      cell: ({ value }) => createRender(Percentage, { number: value }),
     }),
     table.column({
-      accessor: 'tvlPrevWeek',
+      accessor: (protocol) => (protocol.tvl - protocol.tvlPrevWeek) / protocol.tvlPrevWeek,
       header: '7d Change',
-      cell: ({ value }) => {
-        const change = value - value
-        return change > 0 ? `+${change.toFixed(2)}%` : `${change.toFixed(2)}%`
-      },
+      cell: ({ value }) => createRender(Percentage, { number: value }),
     }),
     table.column({
-      accessor: 'tvlPrevMonth',
-      header: '30d Change',
-      cell: ({ value }) => {
-        const change = value - value
-        return change > 0 ? `+${change.toFixed(2)}%` : `${change.toFixed(2)}%`
-      },
+      accessor: (protocol) => (protocol.tvl - protocol.tvlPrevMonth) / protocol.tvlPrevMonth,
+      header: '1m Change',
+      cell: ({ value }) => createRender(Percentage, { number: value }),
     }),
   ])
 
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns)
 </script>
 
-<div class="container">
+<div class="container bg-card">
   <Table.Root {...$tableAttrs} class="border-l border-t">
     <Table.Header>
       {#each $headerRows as headerRow}

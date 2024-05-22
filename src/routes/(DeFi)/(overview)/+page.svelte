@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Chart from './Chart.svelte'
   import ProtocolTable from './ProtocolTable.svelte'
   import { createQuery } from '@tanstack/svelte-query'
   import { Button } from '$lib/components/ui/button'
@@ -17,6 +18,7 @@
 
 <main>
   <h1 class="flex items-center">Welcome<Smile /></h1>
+  <Chart />
   <ProtocolTable />
 </main>
 
