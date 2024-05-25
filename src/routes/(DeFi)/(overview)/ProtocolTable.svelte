@@ -34,8 +34,9 @@
           style: 'currency',
           currency: 'USD',
           notation: 'compact',
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 3,
+          // 3 decimal paces if value over 1b USD else 2
+          maximumFractionDigits: value > 1e9 ? 3 : 2,
+          minimumFractionDigits: value > 1e9 ? 3 : 2,
         }).format(value)}`,
     }),
     table.column({
