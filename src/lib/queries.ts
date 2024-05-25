@@ -4,14 +4,7 @@ import { createQuery } from '@tanstack/svelte-query'
 import axios from 'axios'
 
 function createReq<T>(url: string) {
-  return () =>
-    axios
-      .get<T>(url, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0',
-        },
-      })
-      .then(({ data }) => data)
+  return () => axios.get<T>(url).then(({ data }) => data)
 }
 
 interface ProtocolsResponse {

@@ -14,7 +14,7 @@
     openGroup ?? NAV.find(({ links }) => links.some(({ href }) => isActive($page.url, href)))?.title
 </script>
 
-<aside class="p-8">
+<aside class="h-full">
   <nav>
     <Accordion.Root class="w-56" value={openGroup}>
       {#each NAV as { title, icon, links }}

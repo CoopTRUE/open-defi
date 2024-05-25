@@ -12,7 +12,7 @@
   />
 </svelte:head>
 
-<main class="bg-card p-4">
+<main class="rounded-xl bg-card p-4">
   <Header />
   <h1 class="my-3 flex items-center text-xl font-medium">
     <Trophy class="mr-2" size={20} />
