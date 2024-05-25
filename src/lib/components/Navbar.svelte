@@ -18,7 +18,7 @@
   <nav>
     <Accordion.Root class="w-56" value={openGroup}>
       {#each NAV as { title, icon, links }}
-        <Accordion.Item value={title}>
+        <Accordion.Item class="border-b-0" value={title}>
           <Accordion.Trigger class={cn(buttonVariants({ variant: 'ghost' }), 'h-full p-1')}>
             <div class="flex flex-1 items-center gap-4">
               <svelte:component this={icon} size={20} />
@@ -26,7 +26,7 @@
             </div>
           </Accordion.Trigger>
           <Accordion.Content>
-            <ul class="flex flex-col gap-1 pt-1">
+            <ul class="flex flex-col gap-1">
               {#each links as { name, href }}
                 {@const linkIsActive = isActive($page.url, href)}
                 <li>

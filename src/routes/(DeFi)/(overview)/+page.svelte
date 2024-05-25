@@ -1,11 +1,7 @@
 <script lang="ts">
   import Header from './Header.svelte'
   import ProtocolTable from './ProtocolTable.svelte'
-  import { createQuery } from '@tanstack/svelte-query'
-  import { Button } from '$lib/components/ui/button'
   import Trophy from 'lucide-svelte/icons/trophy'
-
-  let clicked = 0
 </script>
 
 <svelte:head>
