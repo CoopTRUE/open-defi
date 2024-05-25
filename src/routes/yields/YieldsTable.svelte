@@ -1,64 +1,55 @@
 <script lang="ts">
-  import ProtocolName from './ProtocolName.svelte'
+  import { createVirtualizer } from '@tanstack/svelte-virtual'
   import Percentage from '$lib/components/Percentage.svelte'
   import * as Table from '$lib/components/ui/table'
-  import { createProtocolsQuery } from '$lib/queries'
+  import { createYieldsQuery } from '$lib/queries'
   import { derived } from 'svelte/store'
   import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table'
 
-  const protocolsQuery = createProtocolsQuery()
-  const data = derived(protocolsQuery, ($protocolsQuery) => $protocolsQuery.data ?? [])
+  const yieldsQuery = createYieldsQuery()
+  const data = derived(yieldsQuery, ($yieldsQuery) => $yieldsQuery.data?.pools.slice(0, 100) || [])
   const table = createTable(data)
 
   const columns = table.createColumns([
     table.column({
-      accessor: (protocol) => protocol,
-      header: 'Name',
-      cell: ({ value, row }) =>
-        createRender(ProtocolName, {
-          index: +row.id + 1,
-          name: value.name,
-          logo: value.logo,
-          chains: value.chains,
-        }),
+      accessor: 'symbol',
+      header: 'Pool',
     }),
     table.column({
-      accessor: 'category',
-      header: 'Category',
+      accessor: 'projectName',
+      header: 'Project',
+    }),
+
+    table.column({
+      accessor: 'apy',
+      header: 'APY',
+      cell: ({ value }) => createRender(Percentage, { number: value }),
     }),
     table.column({
-      accessor: 'tvl',
+      accessor: 'tvlUsd',
       header: 'TVL',
       cell: ({ value }) =>
         `${Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD',
           notation: 'compact',
-          // 3 decimal paces if value over 1b USD else 2
-          maximumFractionDigits: value > 1e9 ? 3 : 2,
-          minimumFractionDigits: value > 1e9 ? 3 : 2,
+          maximumFractionDigits: 3,
+          minimumFractionDigits: 3,
         }).format(value)}`,
-    }),
-    table.column({
-      accessor: (protocol) => (protocol.tvl - protocol.tvlPrevDay) / protocol.tvlPrevDay,
-      header: '1d Change',
-      cell: ({ value }) => createRender(Percentage, { number: value }),
-    }),
-    table.column({
-      accessor: (protocol) => (protocol.tvl - protocol.tvlPrevWeek) / protocol.tvlPrevWeek,
-      header: '7d Change',
-      cell: ({ value }) => createRender(Percentage, { number: value }),
-    }),
-    table.column({
-      accessor: (protocol) => (protocol.tvl - protocol.tvlPrevMonth) / protocol.tvlPrevMonth,
-      header: '1m Change',
-      cell: ({ value }) => createRender(Percentage, { number: value }),
     }),
   ])
 
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns)
+  // let virtualListEl: HTMLDivElement
+  // const virtualizer = createVirtualizer<HTMLDivElement, HTMLDivElement>({
+  //   count: 10000,
+  //   getScrollElement: () => virtualListEl,
+  //   estimateSize: () => 35,
+  //   overscan: 5,
+  // })
 </script>
 
+<p>done</p>
 <Table.Root {...$tableAttrs} class="border-separate rounded-xl border bg-black">
   <Table.Header>
     {#each $headerRows as headerRow}

@@ -5,8 +5,8 @@
   import { derived } from 'svelte/store'
   import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table'
 
-  const chains = createChainsQuery()
-  const data = derived(chains, ($chains) => $chains.data ?? [])
+  const chainsQuery = createChainsQuery()
+  const data = derived(chainsQuery, ($chainsQuery) => $chainsQuery.data ?? [])
   const table = createTable(data)
 
   const columns = table.createColumns([

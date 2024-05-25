@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { createYieldsQuery } from '$lib/queries'
-  const tokens = createYieldsQuery()
+  import YieldsTable from './YieldsTable.svelte'
 </script>
 
-<h1>{$tokens.status}</h1>
+<YieldsTable />

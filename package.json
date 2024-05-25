@@ -18,6 +18,7 @@
     "@sveltejs/vite-plugin-svelte": "^3.1.0",
     "@tanstack/svelte-query": "^5.37.1",
     "@tanstack/svelte-query-devtools": "^5.37.1",
+    "@tanstack/svelte-virtual": "^3.5.0",
     "@types/nprogress": "^0.2.3",
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.2",

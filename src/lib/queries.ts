@@ -47,7 +47,7 @@ interface YieldsResponse {
 
 export function createYieldsQuery() {
   const query = createQuery({
-    queryKey: ['tokens'],
+    queryKey: ['yields'],
     queryFn: createReq<YieldsResponse>('/api/yields'),
   })
   return query
