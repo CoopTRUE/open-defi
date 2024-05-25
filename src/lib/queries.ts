@@ -1,10 +1,17 @@
 import CHAIN_TVL from './constants/chaints'
-import type { Protocol } from './types'
+import type { Pool, Protocol } from './types'
 import { createQuery } from '@tanstack/svelte-query'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 
 function createReq<T>(url: string) {
-  return () => axios.get<T>(url).then(({ data }) => data)
+  return () =>
+    axios
+      .get<T>(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0',
+        },
+      })
+      .then(({ data }) => data)
 }
 
 interface ProtocolsResponse {
@@ -24,7 +31,24 @@ export function createChainsQuery() {
   const query = createQuery({
     queryKey: ['chains'],
     queryFn: () => CHAIN_TVL,
-    select: (chains) => chains.slice(0, 100)
+    select: (chains) => chains.slice(0, 100),
+  })
+  return query
+}
+
+interface YieldsResponse {
+  pools: Pool[]
+  chainList: string[]
+  projectList: string[]
+  categoryList: string[]
+  tokenNameMapping: Record<string, string>
+  tokenSymbolsList: string[]
+}
+
+export function createYieldsQuery() {
+  const query = createQuery({
+    queryKey: ['tokens'],
+    queryFn: createReq<YieldsResponse>('/api/yields'),
   })
   return query
 }

@@ -39,7 +39,7 @@ const NAV = [
     title: 'Yields',
     icon: Percent,
     links: [
-      { name: 'Pools', href: '/yields/pools' },
+      { name: 'Pools', href: '/yields' },
       { name: 'Delta Neutral', href: '/yields/delta-neutral' },
       { name: 'Long-Short Strats', href: '/yields/long-short-strats' },
       { name: 'Leveraged Lending', href: '/yields/leveraged-lending' },
