@@ -16,9 +16,9 @@
   />
 </svelte:head>
 
-<main class="container bg-card py-8">
+<main class="bg-card p-4">
   <Header />
-  <h1 class="my-6 flex items-center text-xl font-medium">
+  <h1 class="my-3 flex items-center text-xl font-medium">
     <Trophy class="mr-2" size={20} />
     Protocol Rankings
   </h1>
