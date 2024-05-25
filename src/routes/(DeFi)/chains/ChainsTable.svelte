@@ -1,30 +1,39 @@
 <script lang="ts">
-  import ProtocolName from './ProtocolName.svelte'
   import Percentage from '$lib/components/Percentage.svelte'
   import * as Table from '$lib/components/ui/table'
-  import { createProtocolsQuery } from '$lib/queries'
+  import { createChainsQuery } from '$lib/queries'
   import { derived } from 'svelte/store'
   import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table'
 
-  const protocols = createProtocolsQuery()
-  const data = derived(protocols, ($protocols) => $protocols.data ?? [])
+  const chains = createChainsQuery()
+  const data = derived(chains, ($chains) => $chains.data ?? [])
   const table = createTable(data)
 
   const columns = table.createColumns([
     table.column({
-      accessor: (protocol) => protocol,
+      accessor: (chain) => chain,
       header: 'Name',
-      cell: ({ value, row }) =>
-        createRender(ProtocolName, {
-          index: +row.id + 1,
-          name: value.name,
-          logo: value.logo,
-          chains: value.chains,
-        }),
+      cell: ({ value }) => value.name,
     }),
     table.column({
-      accessor: 'category',
-      header: 'Category',
+      accessor: 'protocols',
+      header: 'Protocols',
+    }),
+
+    table.column({
+      accessor: (chain) => (chain.tvl - chain.tvlPrevDay) / chain.tvlPrevDay,
+      header: '1d Change',
+      cell: ({ value }) => createRender(Percentage, { number: value }),
+    }),
+    table.column({
+      accessor: (chain) => (chain.tvl - chain.tvlPrevWeek) / chain.tvlPrevWeek,
+      header: '7d Change',
+      cell: ({ value }) => createRender(Percentage, { number: value }),
+    }),
+    table.column({
+      accessor: (chain) => (chain.tvl - chain.tvlPrevMonth) / chain.tvlPrevMonth,
+      header: '1m Change',
+      cell: ({ value }) => createRender(Percentage, { number: value }),
     }),
     table.column({
       accessor: 'tvl',
@@ -37,21 +46,6 @@
           maximumFractionDigits: 3,
           minimumFractionDigits: 3,
         }).format(value)}`,
-    }),
-    table.column({
-      accessor: (protocol) => (protocol.tvl - protocol.tvlPrevDay) / protocol.tvlPrevDay,
-      header: '1d Change',
-      cell: ({ value }) => createRender(Percentage, { number: value }),
-    }),
-    table.column({
-      accessor: (protocol) => (protocol.tvl - protocol.tvlPrevWeek) / protocol.tvlPrevWeek,
-      header: '7d Change',
-      cell: ({ value }) => createRender(Percentage, { number: value }),
-    }),
-    table.column({
-      accessor: (protocol) => (protocol.tvl - protocol.tvlPrevMonth) / protocol.tvlPrevMonth,
-      header: '1m Change',
-      cell: ({ value }) => createRender(Percentage, { number: value }),
     }),
   ])
 
