@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Chart from './Chart.svelte'
+  import Header from './Header.svelte'
   import ProtocolTable from './ProtocolTable.svelte'
   import { createQuery } from '@tanstack/svelte-query'
   import { Button } from '$lib/components/ui/button'
@@ -16,8 +16,8 @@
   />
 </svelte:head>
 
-<main class="container bg-card">
-  <Chart />
+<main class="container bg-card py-8">
+  <Header />
   <h1 class="my-6 flex items-center text-xl font-medium">
     <Trophy class="mr-2" size={20} />
     Protocol Rankings

@@ -31,7 +31,9 @@
       accessor: 'tvl',
       header: 'TVL',
       cell: ({ value }) =>
-        `$${Intl.NumberFormat('en-US', {
+        `${Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
           notation: 'compact',
           maximumFractionDigits: 3,
           minimumFractionDigits: 3,
@@ -57,7 +59,7 @@
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns)
 </script>
 
-<Table.Root {...$tableAttrs} class="border-separate rounded-xl border">
+<Table.Root {...$tableAttrs} class="border-separate rounded-xl border bg-black">
   <Table.Header>
     {#each $headerRows as headerRow}
       <Subscribe rowAttrs={headerRow.attrs()}>
